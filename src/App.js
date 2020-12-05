@@ -1,25 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import H from './components/header';
+import { Layout } from 'antd';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const { Content } = Layout;
+
+class App extends React.Component {
+  render() {
+    return (
+      <>
+        <Layout style={{margin:'0px auto', width:'80%' , maxWidth:'1140px'}}>
+          <Content style={{ background: "white" }}>
+            <H role="ROLE_ADMIN">
+
+            </H>
+          </Content>
+        </Layout>
+      </>
+    )
+  };
 }
 
 export default App;
