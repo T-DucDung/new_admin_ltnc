@@ -1,17 +1,17 @@
 import React from 'react';
-import { Table, Space, Image, Modal, Form, Input, Button, Select } from 'antd';
+import { Table, Space, Image, Modal, Form, Input, Button } from 'antd';
 
 import axios from 'axios';
 import { BASE_URL } from '../consts';
 
 const { Column } = Table;
-const { Option } = Select;
 
 
-class Users extends React.Component {
+
+class Account extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: [], type: [], visible: false };
+        this.state = { data: [], visible: false };
         this.formRef = React.createRef();
 
     }
@@ -21,21 +21,21 @@ class Users extends React.Component {
                 (respone) => { this.setState({ data: respone.data }) }
             )
             .catch(console.log)
-        axios.get(`${BASE_URL}/types`)
-            .then(
-                (respone) => { this.setState({ type: respone.data }) }
-            )
-            .catch(console.log)
     }
 
 
 
     showModal(record) {
-        this.setState({ visible: true },
-            () => {
+        this.setState({ visible: true }, 
+            () =>{
+                axios.get(`${BASE_URL}/foods/view`)
+            .then(
+                (respone) => { this.setState({ data: respone.data }) }
+            )
+            .catch(console.log) 
                 this.formRef.current.setFieldsValue(record)
             })
-
+        
     };
 
     onFinish = (values) => {
@@ -51,7 +51,7 @@ class Users extends React.Component {
         return (
             <>
                 <Table dataSource={this.state.data}>
-                    <Column title="Mã" dataIndex="mamon" key="id" />
+                    <Column title="Mã" dataIndex="mamon" key="id"/>
                     <Column title="Ảnh" dataIndex="anh" key="anh" render={(anh) => (<Image width={150} height={150} src={anh} />)} />
                     <Column title="Tên món ăn" dataIndex="tenmon" key="tenmon" />
                     <Column title="Giá" dataIndex="gia" key="gia" />
@@ -74,49 +74,31 @@ class Users extends React.Component {
                     onCancel={this.handleCancel}
                 >
                     <Form
-                        labelCol={{ span: 4 }}
-                        wrapperCol={{ span: 20 }}
                         ref={this.formRef}
                         onFinish={this.onFinish}
                         initialValues={{}}
                     >
                         <Form.Item
-                            label="Ảnh"
                             name="anh"
                         >
                             <Input></Input>
                         </Form.Item>
                         <Form.Item
-                            label="Tên món"
                             name="tenmon"
                         >
                             <Input></Input>
                         </Form.Item>
                         <Form.Item
-                            label="Giá"
                             name="gia"
                         >
                             <Input></Input>
                         </Form.Item>
                         <Form.Item
-                            label="Trạng thái"
                             name="tentrangthai"
                         >
                             <Input></Input>
                         </Form.Item>
-                        <Form.Item
-                            label="Loại"
-                            name="maloai"
-                        >
-                            <Select>
-                                {
-                                this.state.type.map((index) => {
-                                   return <Option value={index.maloai}>{index.tenloai}</Option>
-                                })
-                                }
-                            </Select>
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
+                        <Form.Item>
                             <Button htmlType="submit">Sửa</Button>
                         </Form.Item>
                     </Form>
@@ -126,4 +108,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default Account;

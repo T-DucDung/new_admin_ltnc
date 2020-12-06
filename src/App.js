@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import H from './components/header';
+import Header from './components/header';
 import { Layout } from 'antd';
 
 const { Content } = Layout;
@@ -11,9 +11,9 @@ class App extends React.Component {
       <>
         <Layout style={{margin:'0px auto', width:'80%' , maxWidth:'1140px'}}>
           <Content style={{ background: "white" }}>
-            <H role="ROLE_ADMIN">
+            <Header role="ROLE_ADMIN">
 
-            </H>
+            </Header>
           </Content>
         </Layout>
       </>
