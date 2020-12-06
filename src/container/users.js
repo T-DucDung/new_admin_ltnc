@@ -1,11 +1,40 @@
 import React from 'react';
-import { Table, Space, Image, Modal, Form, Input, Button, Select } from 'antd';
+import { Table, Space, Image, Modal, Form, Input, Button, Select, Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+
 
 import axios from 'axios';
 import { BASE_URL } from '../consts';
 
 const { Column } = Table;
 const { Option } = Select;
+
+
+const props = {
+    name: 'file',
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    headers: {
+        authorization: 'authorization-text',
+    },
+    onChange(info) {
+        if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
+    },
+    progress: {
+        strokeColor: {
+            '0%': '#108ee9',
+            '100%': '#87d068',
+        },
+        strokeWidth: 3,
+        format: percent => `${parseFloat(percent.toFixed(2))}%`,
+    },
+};
 
 
 class Users extends React.Component {
@@ -84,7 +113,9 @@ class Users extends React.Component {
                             label="Ảnh"
                             name="anh"
                         >
-                            <Input></Input>
+                            <Upload {...props}>
+                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                            </Upload>
                         </Form.Item>
                         <Form.Item
                             label="Tên món"
@@ -110,9 +141,9 @@ class Users extends React.Component {
                         >
                             <Select>
                                 {
-                                this.state.type.map((index) => {
-                                   return <Option value={index.maloai}>{index.tenloai}</Option>
-                                })
+                                    this.state.type.map((index) => {
+                                        return <Option value={index.maloai}>{index.tenloai}</Option>
+                                    })
                                 }
                             </Select>
                         </Form.Item>
