@@ -1,4 +1,4 @@
-import { LOGGED } from './action_types'
+import { LOGGED, SET_ROLE } from './action_types'
 
 export default {
     loggedIn: (data) => ({
@@ -7,4 +7,8 @@ export default {
             data,
         },
     }),
+    setRole: (data) => ({
+        type: SET_ROLE,
+        data,
+    })
 };

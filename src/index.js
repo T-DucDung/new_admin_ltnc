@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Login from './components/login';
 
 import { Provider } from 'react-redux'
@@ -25,7 +25,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
-        <Route path="/test" component={Test}/>
+        <Route path="/test" component={Test} />
         <App />
       </Switch>
     </Router>

@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 
 
 import axios from 'axios';
-import { BASE_URL } from '../consts';
+import { BASE_URL, IMAGE_URL } from '../consts';
 
 const { Column } = Table;
 const { Option } = Select;
@@ -12,10 +12,7 @@ const { Option } = Select;
 
 const props = {
     name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-        authorization: 'authorization-text',
-    },
+    action: 'http://192.168.0.109:8081/uploadFile',
     onChange(info) {
         if (info.file.status !== 'uploading') {
             console.log(info.file, info.fileList);
@@ -81,7 +78,7 @@ class Users extends React.Component {
             <>
                 <Table dataSource={this.state.data}>
                     <Column title="Mã" dataIndex="mamon" key="id" />
-                    <Column title="Ảnh" dataIndex="anh" key="anh" render={(anh) => (<Image width={150} height={150} src={anh} />)} />
+                    <Column title="Ảnh" dataIndex="anh" key="anh" render={(anh) => (<Image width={150} height={150} src={IMAGE_URL +'/'+ anh} />)} />
                     <Column title="Tên món ăn" dataIndex="tenmon" key="tenmon" />
                     <Column title="Giá" dataIndex="gia" key="gia" />
                     <Column title="Trạng thái" dataIndex="trangthai" key="trangthai" />
@@ -126,6 +123,18 @@ class Users extends React.Component {
                         <Form.Item
                             label="Giá"
                             name="gia"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            label="Mô tả"
+                            name="mota"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            label="Đơn vị tính"
+                            name="dvt"
                         >
                             <Input></Input>
                         </Form.Item>

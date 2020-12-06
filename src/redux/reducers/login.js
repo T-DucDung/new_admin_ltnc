@@ -1,7 +1,8 @@
-import { LOGGED } from '../actions/login/action_types';
+import { LOGGED, SET_ROLE } from '../actions/login/action_types';
 
 export default (state = {
     login: true,
+    role: []
 }, action) => {
     switch (action.type) {
         case LOGGED:
@@ -9,6 +10,11 @@ export default (state = {
                 ...state,
                 login: action.data,
             };
+        case SET_ROLE:
+            return{
+                ...state,
+                role: action.data, 
+            }
         default:
             return {
                 ...state,
