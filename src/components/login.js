@@ -36,9 +36,9 @@ class Login extends React.Component {
               Authorization: `${respone.data.tokenType} ${respone.data.accessToken}`,
             },
             paramsSerializer: function (params) {
-                return qs.stringify(params)
+              return qs.stringify(params)
             },
-        });
+          });
           window.dispatch({ type: 'LOGIN', data: true });
           this.props.history.push("/iu");
           console.log(this.props)

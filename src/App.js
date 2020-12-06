@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import Header from './components/header';
+import H from './components/header';
 import { Layout } from 'antd';
 
 const { Content } = Layout;

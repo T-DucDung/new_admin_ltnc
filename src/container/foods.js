@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Space, Image, Modal, Form, Input, Button, Select, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 
 import { BASE_URL } from '../consts';
