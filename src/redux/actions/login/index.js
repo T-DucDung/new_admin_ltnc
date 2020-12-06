@@ -1,11 +1,17 @@
-import { LOGGED, SET_ROLE } from './action_types'
+import {LOGIN, SET_ROLE, LOGOUT} from './action_types';
 
 export default {
-    loggedIn: (data) => ({
-        type: LOGGED,
-        params: {
+    login: (data) => ({
+        type: LOGIN,
+        params:{
             data,
-        },
+        }
+    }),
+    logout: (data) => ({
+        type: LOGOUT,
+        params:{
+            data,
+        }
     }),
     setRole: (data) => ({
         type: SET_ROLE,

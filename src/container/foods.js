@@ -1,10 +1,15 @@
 import React from 'react';
 import { Table, Space, Image, Modal, Form, Input, Button, Select, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 
+<<<<<<< HEAD:src/container/users.js
 import axios from 'axios';
 import { BASE_URL, IMAGE_URL } from '../consts';
+=======
+import { BASE_URL } from '../consts';
+>>>>>>> master:src/container/foods.js
 
 const { Column } = Table;
 const { Option } = Select;
@@ -34,7 +39,7 @@ const props = {
 };
 
 
-class Users extends React.Component {
+class Foods extends React.Component {
     constructor(props) {
         super(props);
         this.state = { data: [], type: [], visible: false };
@@ -166,4 +171,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default Foods;
