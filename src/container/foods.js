@@ -1,14 +1,13 @@
 import React from 'react';
 import { Table, Space, Image, Modal, Form, Input, Button } from 'antd';
 
-import axios from 'axios';
 import { BASE_URL } from '../consts';
 
 const { Column } = Table;
 
 
 
-class Users extends React.Component {
+class Foods extends React.Component {
     constructor(props) {
         super(props);
         this.state = { data: [], visible: false };
@@ -16,7 +15,11 @@ class Users extends React.Component {
 
     }
     componentDidMount() {
-        axios.get(`${BASE_URL}/foods/view`)
+        let config = {
+            Authorization : window.localStorage.getItem('token')
+        }
+        console.log(config)
+        window.axios.get(`${BASE_URL}/foods/view`, {config})
             .then(
                 (respone) => { this.setState({ data: respone.data }) }
             )
@@ -99,4 +102,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default Foods;

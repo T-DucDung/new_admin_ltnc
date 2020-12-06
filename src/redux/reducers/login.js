@@ -1,14 +1,17 @@
-import { LOGGED } from '../actions/login/action_types';
-
+import { LOGOUT } from '../actions/login/action_types';
 export default (state = {
-    login: true,
+    token: null,
+    login: false,
 }, action) => {
     switch (action.type) {
-        case LOGGED:
+        case LOGOUT: {
+            window.localStorage.setItem('token', ``)
+            window.localStorage.setItem('roles', ``)
             return {
                 ...state,
-                login: action.data,
+                token: null
             };
+        }
         default:
             return {
                 ...state,
