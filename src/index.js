@@ -10,6 +10,8 @@ import { Provider } from 'react-redux'
 import { createStore, compose } from 'redux';
 import allReducers from './redux/reducers/index';
 
+import Test from './test';
+
 const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
   : compose;
@@ -24,6 +26,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route path="/iu" component={App} />
+        <Route path="/test" component={Test}/>
+        <App />
       </Switch>
     </Router>
   </Provider>,
