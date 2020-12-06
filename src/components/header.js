@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, Button } from 'antd';
 import Foods from '../container/foods';
-import { BrowserRouter as Router, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, withRouter } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
@@ -10,7 +10,7 @@ class Header extends React.Component {
         super(props);
     }
     
-    logOut() {
+    logOut = () => {
         window.dispatch({ type: 'LOGOUT' });
         this.props.history.push("/login")
     };
@@ -47,4 +47,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header
+export default withRouter(Header)

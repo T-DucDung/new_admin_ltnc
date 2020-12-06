@@ -6,9 +6,6 @@ import { Layout } from 'antd';
 const { Content } = Layout;
 
 class App extends React.Component {
-  constructor(props){
-    super(props)
-  }
   render() {
     return (
       <>
