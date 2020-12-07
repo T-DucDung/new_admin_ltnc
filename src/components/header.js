@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tabs, Button } from 'antd';
-import {Redirect} from 'react-router-dom'
 import Account from '../container/account';
 import Foods from '../container/foods';
 import { BrowserRouter as Router, Redirect, withRouter } from "react-router-dom";
@@ -40,7 +39,7 @@ class Header extends React.Component {
                                     <Foods></Foods>
                                 </TabPane>
                                 :
-                                <Redirect to="/login" />
+                                this.props.history.push("/login")
                     }
                 </Tabs>
             </div>

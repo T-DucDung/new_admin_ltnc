@@ -1,10 +1,42 @@
 import React from 'react';
-import { Table, Space, Image, Modal, Form, Input, Button } from 'antd';
+import { Table, Space, Tag, Modal, Form, Input, Button } from 'antd';
 
-import axios from 'axios';
 import { BASE_URL } from '../consts';
 
-const { Column } = Table;
+const columns = [
+    {
+      title: 'Mã',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Tên tài khoản',
+      dataIndex: 'username',
+      key: 'username',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Quyền',
+      key: 'roles',
+      dataIndex: 'roles',
+      render: roles =>( 
+        <div>  
+        {roles.map(role => {
+          return (
+            <Tag color='blue' key={role.id}>
+              {role.name}
+            </Tag>
+          );
+        })}
+        </div>
+      ),
+    },
+  ];
+
 
 
 
@@ -16,9 +48,10 @@ class Account extends React.Component {
 
     }
     componentDidMount() {
-        axios.get(`${BASE_URL}/foods`)
+        window.axios.get(`${BASE_URL}/users`)
             .then(
-                (respone) => { this.setState({ data: respone.data }) }
+                (response) =>  
+                {this.setState({ data: response.data },() => console.log(this.state.data)) }
             )
             .catch(console.log)
     }
@@ -28,7 +61,7 @@ class Account extends React.Component {
     showModal(record) {
         this.setState({ visible: true }, 
             () =>{
-                axios.get(`${BASE_URL}/foods/view`)
+                window.axios.get(`${BASE_URL}/foods/view`)
             .then(
                 (respone) => { this.setState({ data: respone.data }) }
             )
@@ -50,22 +83,8 @@ class Account extends React.Component {
     render() {
         return (
             <>
-                <Table dataSource={this.state.data}>
-                    <Column title="Mã" dataIndex="mamon" key="id"/>
-                    <Column title="Ảnh" dataIndex="anh" key="anh" render={(anh) => (<Image width={150} height={150} src={anh} />)} />
-                    <Column title="Tên món ăn" dataIndex="tenmon" key="tenmon" />
-                    <Column title="Giá" dataIndex="gia" key="gia" />
-                    <Column title="Trạng thái" dataIndex="trangthai" key="trangthai" />
-                    <Column
-                        title="Action"
-                        key="action"
-                        render={(record) => (
-                            <Space size="middle">
-                                <a onClick={() => { this.showModal(record) }}>Edit</a>
-                                <a>Delete</a>
-                            </Space>
-                        )}
-                    />
+                <Table columns={columns} dataSource={this.state.data}>
+                    
                 </Table>
                 <Modal
                     title="Basic Modal"

@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'antd/dist/antd.css';
 import { Form, Input, Button } from 'antd';
 import { BASE_URL } from '../consts';
+
 import qs from 'qs';
 
 const layout = {
@@ -23,12 +24,11 @@ class Login extends React.Component {
     this.state = { username: "", password: "" };
   }
 
-  login(values) {
+  login(values){
     axios.post(`${BASE_URL}/api/auth/signin`, values)
       .then(
         (respone) => {
           window.axios = axios.create({
-            baseURL: BASE_URL,
             headers: {
               Authorization: `${respone.data.tokenType} ${respone.data.accessToken}`,
             },
@@ -39,15 +39,12 @@ class Login extends React.Component {
           window.dispatch({ type: 'LOGIN', data: true });
           window.dispatch({type:'SET_ROLE', data: respone.data.roles})
           this.props.history.push("/");
-          
-          console.log(this.props)
         }
       )
       .catch(console.log)
   }
 
   onFinish = (values) => {
-    console.log(values)
     this.login(values);
   }
 
