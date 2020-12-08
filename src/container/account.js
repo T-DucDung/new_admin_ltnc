@@ -79,6 +79,18 @@ class Account extends React.Component {
 
     onFinish1 = (values) => {
         console.log(values);
+
+        window.axios.put(`${BASE_URL}/user/${values}`, )
+        .then(() => {
+            this.setState({ visible: false }, () => {
+                window.axios.get(`${BASE_URL}/users`)
+                    .then(
+                        (respone) => { this.setState({ data: respone.data }) }
+                    )
+                    .catch(console.log)
+            })
+        })
+        .catch(console.log)
     }
 
     handleCancel = () => {
