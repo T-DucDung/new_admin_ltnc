@@ -80,7 +80,7 @@ class Account extends React.Component {
     onFinish1 = (values) => {
         console.log(values);
 
-        window.axios.put(`${BASE_URL}/user/${values}`, )
+        window.axios.put(`${BASE_URL}/user/${values.id}`, )
         .then(() => {
             this.setState({ visible: false }, () => {
                 window.axios.get(`${BASE_URL}/users`)
