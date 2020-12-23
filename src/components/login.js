@@ -36,6 +36,7 @@ class Login extends React.Component {
               return qs.stringify(params)
             },
           });
+
           window.dispatch({ type: 'LOGIN', data: true });
           window.dispatch({type:'SET_ROLE', data: respone.data.roles})
           this.props.history.push("/");
