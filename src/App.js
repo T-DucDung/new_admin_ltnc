@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from './components/header';
+import Header from './container/header';
 import { Layout } from 'antd';
 
 

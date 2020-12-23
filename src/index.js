@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import Login from './components/login';
+import Login from './container/login';
 
 import { Provider } from 'react-redux'
 import { createStore, compose } from 'redux';

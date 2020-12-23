@@ -43,16 +43,16 @@ class Foods extends React.Component {
 
 
     componentDidMount() {
-        window.axios.get(`${BASE_URL}/foods`)
-            .then(
-                (respone) => { this.setState({ data: respone.data }) }
-            )
-            .catch(console.log)
-        window.axios.get(`${BASE_URL}/types`)
-            .then(
-                (respone) => { this.setState({ type: respone.data }) }
-            )
-            .catch(console.log)
+        // window.axios.get(`${BASE_URL}/foods`)
+        //     .then(
+        //         (respone) => { this.setState({ data: respone.data }) }
+        //     )
+        //     .catch(console.log)
+        // window.axios.get(`${BASE_URL}/types`)
+        //     .then(
+        //         (respone) => { this.setState({ type: respone.data }) }
+        //     )
+        //     .catch(console.log)
     }
 
 

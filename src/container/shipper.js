@@ -7,6 +7,11 @@ const { Option } = Select;
 
 const columns = [
     {
+        title: 'Ảnh',
+        dataIndex: 'image',
+        key: 'image',
+    },
+    {
         title: 'Mã',
         dataIndex: 'id',
         key: 'id',
@@ -39,7 +44,7 @@ const columns = [
     },
 ];
 
-class Account extends React.Component {
+class Shipper extends React.Component {
     constructor(props) {
         super(props);
         this.state = { data: [], visible: false, visible1: false };
@@ -193,4 +198,4 @@ class Account extends React.Component {
     }
 }
 
-export default Account;
+export default Shipper;
