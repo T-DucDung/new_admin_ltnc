@@ -3,6 +3,7 @@ import { Tabs, Button } from 'antd';
 import Account from '../container/account';
 import Shipper from '../container/shipper';
 import { BrowserRouter as Router, Redirect, withRouter } from "react-router-dom";
+import Statistic from '../container/statistic';
 
 const { TabPane } = Tabs;
 
@@ -33,6 +34,9 @@ class Header extends React.Component {
                                 </TabPane>
                                 <TabPane tab="Quản lý tài khoản người giao hàng" key="4">
                                     <Shipper></Shipper>
+                                </TabPane>
+                                <TabPane tab="Thống kê toàn hệ thống" key="5">
+                                    <Statistic></Statistic>
                                 </TabPane>
                             // </>
                             // :
