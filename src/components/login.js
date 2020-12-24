@@ -3,8 +3,9 @@ import axios from 'axios';
 import 'antd/dist/antd.css';
 import { Form, Input, Button } from 'antd';
 import { BASE_URL } from '../consts';
+import {withRouter } from 'react-router-dom'
 
-import qs from 'qs';
+// import qs from 'qs';
 
 const layout = {
   wrapperCol: {
@@ -25,20 +26,17 @@ class Login extends React.Component {
   }
 
   login(values){
-    axios.post(`${BASE_URL}/api/auth/signin`, values)
+    axios.post(`${BASE_URL}/v1/login`, values)
       .then(
-        (respone) => {
-          window.axios = axios.create({
-            headers: {
-              Authorization: `${respone.data.tokenType} ${respone.data.accessToken}`,
-            },
-            paramsSerializer: function (params) {
-              return qs.stringify(params)
-            },
-          });
-          window.dispatch({ type: 'LOGIN', data: true });
-          window.dispatch({type:'SET_ROLE', data: respone.data.roles})
-          this.props.history.push("/");
+        (response) => {
+          if(response.data.error.code === 200){
+            window.dispatch({type:'SET_TOKEN', data:response.data.data})
+            window.dispatch({type: 'LOGIN', data:true})
+            this.props.history.push('/')
+          }
+          else{
+            alert('Đăng nhập không thành công');
+          }
         }
       )
       .catch(console.log)
@@ -93,4 +91,4 @@ class Login extends React.Component {
   }
 };
 
-export default Login;
+export default withRouter(Login);

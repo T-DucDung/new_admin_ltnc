@@ -8,9 +8,6 @@ import { BASE_URL, IMAGE_URL } from '../consts';
 const { Column } = Table;
 const { Option } = Select;
 
-
-
-
 class Foods extends React.Component {
     constructor(props) {
         super(props);

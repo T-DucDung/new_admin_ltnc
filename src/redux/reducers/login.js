@@ -1,22 +1,21 @@
-import { LOGOUT, SET_ROLE } from '../actions/login/action_types';
+import { LOGOUT, SET_TOKEN } from '../actions/login/action_types';
 
 export default (state = {
-    token: null,
+    token: "",
     login: false,
     role: [],
 }, action) => {
     switch (action.type) {
         case LOGOUT: {
-            window.localStorage.setItem('roles', ``)
             return {
                 ...state,
                 token: null
             };
         }
-        case SET_ROLE:{
-            return{
+        case SET_TOKEN: {
+            return {
                 ...state,
-                role: action.data, 
+                token: action.data
             }
         }
         default:

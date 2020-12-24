@@ -1,13 +1,13 @@
 import React from 'react';
+import { Table, Modal, Form, Input, Button } from 'antd';
 import axios from 'axios';
-import { Table, Tag, Modal, Form, Input, Button } from 'antd';
-import { withRouter } from 'react-router-dom'
+import {withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 import { BASE_URL } from '../consts';
 
 // const { Option } = Select;
-//  fullname imageurl address, mobile email username pass type
+
 const columns = [
     {
         title: 'Mã',
@@ -20,33 +20,18 @@ const columns = [
         key: 'username',
     },
     {
-        title: 'Tên',
-        dataIndex: 'full_name',
-        key: 'full_name',
+        title: 'Tên store',
+        dataIndex: 'name',
+        key: 'name',
     },
     {
-        title: 'Ảnh',
-        dataIndex: 'image_url',
-        key: 'image_url',
-    },
-    {
-        title: 'Địa chỉ',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-    },
-    {
-        title: 'Mobile',
-        dataIndex: 'mobile',
-        key: 'mobile',
+        title: 'Status',
+        key: 'status',
+        dataIndex: 'status',
     },
 ];
 
-class Account extends React.Component {
+class Store extends React.Component {
     constructor(props) {
         super(props);
         this.state = { data: [], visible: false, visible1: false };
@@ -54,29 +39,28 @@ class Account extends React.Component {
     }
 
     componentDidMount() {
-        let config = { headers: { Auth: this.props.token } }
-        console.log(config)
-        axios.get(`${BASE_URL}/v1/user/customer`, config)
-            .then(
-                (response) => {
-                    this.setState({ data: response.data.data }, () => console.log(this.state.data))
-                    console.log(response)
-                }
-            )
-            .catch(console.log)
+        let config = {headers:{Auth: this.props.token}}
+        axios.get(`${BASE_URL}/v1/user/store`,config)
+        .then(
+            (response) => {
+                this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                console.log(response)
+            }
+        )
+        .catch(console.log)
     }
 
 
     onFinish = (values) => {
         console.log(values);
-        values.type = '3';
         let config = { headers: { Auth: this.props.token } }
+        values.type = '1';
         console.log('POST')
         console.log(values)
-        axios.post(`${BASE_URL}/v1/user/creuser`, values, config)
+        axios.post(`${BASE_URL}/v1/user/crestore`, values, config)
             .then(() => {
                 this.setState({ visible: false }, () => {
-                    axios.get(`${BASE_URL}/v1/user/customer`, config)
+                    axios.get(`${BASE_URL}/v1/user/store`, config)
                         .then(
                             (response) => {
                                 this.setState({ data: response.data.data }, () => console.log(this.state.data))
@@ -92,10 +76,10 @@ class Account extends React.Component {
     onFinish1 = (values) => {
         console.log(values);
 
-        window.axios.put(`${BASE_URL}/user/${values.id}`,)
+        window.axios.put(`${BASE_URL}/store/${values.id}`,)
             .then(() => {
                 this.setState({ visible: false }, () => {
-                    window.axios.get(`${BASE_URL}/users`)
+                    window.axios.get(`${BASE_URL}/user`)
                         .then(
                             (respone) => { this.setState({ data: respone.data }) }
                         )
@@ -170,38 +154,30 @@ class Account extends React.Component {
                         onFinish={this.onFinish}
                         initialValues={{}}
                     >
-                        <Form.Item name="username" label='username' >
-                            <Input></Input>
-                        </Form.Item>
-
-                        <Form.Item name="password" label="password" >
-                            <Input></Input>
-                        </Form.Item>
-
-                        <Form.Item name="email" label="email" >
-                            <Input></Input>
-                        </Form.Item>
-
-                        <Form.Item name="address" label="address" >
-                            <Input></Input>
-                        </Form.Item>
-
-                        <Form.Item name="full_name" label='full_name'>
-                            <Input></Input>
-                        </Form.Item>
-                        
-                        <Form.Item name="image_url" label='image_url'>
-                            <Input></Input>
-                        </Form.Item>
-                        
-                        <Form.Item name="mobile" label='mobile'>
-                            <Input></Input>
-                        </Form.Item>
-                        
-                        <Form.Item name='type' label='type'
-                            value='3'
+                        <Form.Item
+                            name="username"
+                            label='username'
                         >
-                            customer
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            label="password"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="name"
+                            label='name'
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="type"
+                            label='type'
+                            value='1'
+                        >
+                            store
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit"> Tạo mới</Button>
@@ -213,10 +189,11 @@ class Account extends React.Component {
     }
 }
 
+
 const mapStateToProps = (state) => {
-    return {
+    return{
         token: state.login.token,
     }
 }
 
-export default connect(mapStateToProps)(withRouter(Account));
+export default connect(mapStateToProps)(withRouter(Store));

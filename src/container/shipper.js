@@ -1,16 +1,16 @@
 import React from 'react';
-import { Table, Tag, Modal, Form, Input, Button, Select } from 'antd';
+import axios from 'axios';
+import { Table, Modal, Form, Input, Button, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import {withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
 
 import { BASE_URL } from '../consts';
 
-const { Option } = Select;
-
+// const { Option } = Select;
+// name phone username password type
 const columns = [
-    {
-        title: 'Ảnh',
-        dataIndex: 'image',
-        key: 'image',
-    },
+    
     {
         title: 'Mã',
         dataIndex: 'id',
@@ -18,29 +18,23 @@ const columns = [
     },
     {
         title: 'Tên tài khoản',
-        dataIndex: 'username',
-        key: 'username',
+        dataIndex: 'user_name',
+        key: 'user_name',
     },
     {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
+        title: 'Tên',
+        dataIndex: 'name',
+        key: 'name',
     },
     {
-        title: 'State',
-        key: 'state',
-        dataIndex: 'state',
-        render: roles => (
-            <div>
-                {roles.map(role => {
-                    return (
-                        <Tag color='blue' key={role.id}>
-                            {role.name}
-                        </Tag>
-                    );
-                })}
-            </div>
-        ),
+        title: 'Phone',
+        dataIndex: 'phone',
+        key: 'phone',
+    },
+    {
+        title: 'Status',
+        key: 'status',
+        dataIndex: 'status',
     },
 ];
 
@@ -52,25 +46,34 @@ class Shipper extends React.Component {
     }
 
     componentDidMount() {
-        // window.axios.get(`${BASE_URL}/users`)
-        //     .then(
-        //         (response) => { this.setState({ data: response.data }, () => console.log(this.state.data)) }
-        //     )
-        //     .catch(console.log)
+        let config = { headers: { Auth: this.props.token } }
+        console.log(config)
+        axios.get(`${BASE_URL}/v1/user/shipper`, config)
+            .then(
+                (response) => {
+                    this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                    console.log(response)
+                }
+            )
+            .catch(console.log)
     }
 
 
     onFinish = (values) => {
         console.log(values);
-
+        values.type = '2';
+        let config = { headers: { Auth: this.props.token } }
         console.log('POST')
         console.log(values)
-        window.axios.post(`${BASE_URL}/api/auth/signup`, values)
+        axios.post(`${BASE_URL}/v1/user/creshipper`, values, config)
             .then(() => {
                 this.setState({ visible: false }, () => {
-                    window.axios.get(`${BASE_URL}/users`)
+                    axios.get(`${BASE_URL}/v1/user/shipper`, config)
                         .then(
-                            (respone) => { this.setState({ data: respone.data }) }
+                            (response) => {
+                                this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                console.log(response)
+                            }
                         )
                         .catch(console.log)
                 })
@@ -131,7 +134,7 @@ class Shipper extends React.Component {
                                 <Input></Input>
                             </Form.Item>
                             <Form.Item>
-                                <Button htmlType="submit"> Xóa role</Button>
+                                <Button htmlType="submit"> Vô hiệu hoá</Button>
                             </Form.Item>
                         </Form>
                     </div>
@@ -178,15 +181,31 @@ class Shipper extends React.Component {
                             <Input></Input>
                         </Form.Item>
                         <Form.Item
-                            name="role"
-                            label='role'
+                            name="name"
+                            label='name'
                         >
-                            <Select >
-                                <Option value="store">store</Option>
-                                <Option value="shipper">shipper</Option>
-                                <Option value="customer">customer</Option>
-                            </Select>
-
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="phone"
+                            label='phone'
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            label="Chọn ảnh"
+                            name="picker"
+                        >
+                            <Upload {...this.uploadProps}>
+                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                            </Upload>
+                        </Form.Item>
+                        <Form.Item
+                            name="type"
+                            label='type'
+                            value='2'
+                        >
+                            shipper
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit"> Tạo mới</Button>
@@ -198,4 +217,10 @@ class Shipper extends React.Component {
     }
 }
 
-export default Shipper;
+const mapStateToProps = (state) => {
+    return{
+        token: state.login.token,
+    }
+}
+
+export default connect(mapStateToProps)(withRouter(Shipper));
