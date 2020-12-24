@@ -20,9 +20,12 @@ const store = createStore(allReducers, composeEnhancers());
 
 window.dispatch = store.dispatch;
 
+console.log(store.getState());
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
+    {store.getState().login.token === "" ? <Redirect to="/login"/> : <></>}
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/" component={App} />
