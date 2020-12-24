@@ -14,9 +14,7 @@ class App extends React.Component {
       <>
         <Layout style={{margin:'0px auto', width:'80%' , maxWidth:'1140px'}}>
           <Content style={{ background: "white" }}>
-            <Header role={this.props.role}>
-
-            </Header>
+            <Header/>
           </Content>
         </Layout>
       </>
