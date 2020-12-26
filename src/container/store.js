@@ -75,15 +75,49 @@ class Store extends React.Component {
 
     onFinish1 = (values) => {
         console.log(values);
-
-        window.axios.put(`${BASE_URL}/store/${values.id}`,)
-            .then(() => {
+        values.type = '1';
+        let config = { headers: { Auth: this.props.token } }
+        axios.put(`${BASE_URL}/v1/user/activestore`, values, config)
+            .then((response) => {
                 this.setState({ visible: false }, () => {
-                    window.axios.get(`${BASE_URL}/user`)
+                    if (response.data.error.code === 200) {
+                        axios.get(`${BASE_URL}/v1/user/store`, config)
                         .then(
-                            (respone) => { this.setState({ data: respone.data }) }
+                            (response) => {
+                                this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                console.log(response)
+                            }
                         )
                         .catch(console.log)
+                    }
+                    else {
+                        alert('Kích hoạt tài khoản khách hàng không thành công');
+                    }
+                })
+            })
+            .catch(console.log)
+    }
+
+    onFinish2 = (values) => {
+        console.log(values);
+        values.type = '1';
+        let config = { headers: { Auth: this.props.token } }
+        axios.put(`${BASE_URL}/v1/user/deactivestore`, values, config)
+            .then((response) => {
+                this.setState({ visible: false }, () => {
+                    if (response.data.error.code === 200) {
+                        axios.get(`${BASE_URL}/v1/user/store`, config)
+                        .then(
+                            (response) => {
+                                this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                console.log(response)
+                            }
+                        )
+                        .catch(console.log)
+                    }
+                    else {
+                        alert('Vô hiệu hoá tài khoản khách hàng không thành công');
+                    }
                 })
             })
             .catch(console.log)
@@ -112,10 +146,28 @@ class Store extends React.Component {
         return (
             <>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div>
+                <div>
                         <Form
                             ref={this.formRef}
                             onFinish={this.onFinish1}
+                            initialValues={{}}
+                            style={{ display: "flex" }}
+                        >
+                            <Form.Item
+                                name="id"
+                                label='Id'
+                            >
+                                <Input></Input>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button htmlType="submit"> Kích hoạt</Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                    <div>
+                        <Form
+                            ref={this.formRef}
+                            onFinish={this.onFinish2}
                             initialValues={{}}
                             style={{ display: "flex" }}
                         >

@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { Table, Tag, Modal, Form, Input, Button } from 'antd';
+import { Table, Modal, Form, Input, Button ,Upload} from 'antd';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
+import { UploadOutlined } from '@ant-design/icons';
 
 import { BASE_URL } from '../consts';
 
@@ -43,6 +44,11 @@ const columns = [
         title: 'Mobile',
         dataIndex: 'mobile',
         key: 'mobile',
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
     },
 ];
 
@@ -91,15 +97,49 @@ class Account extends React.Component {
 
     onFinish1 = (values) => {
         console.log(values);
-
-        window.axios.put(`${BASE_URL}/user/${values.id}`,)
-            .then(() => {
+        values.type = '3';
+        let config = { headers: { Auth: this.props.token } }
+        axios.put(`${BASE_URL}/v1/user/activeuser`, values, config)
+            .then((response) => {
                 this.setState({ visible: false }, () => {
-                    window.axios.get(`${BASE_URL}/users`)
+                    if (response.data.error.code === 200) {
+                        axios.get(`${BASE_URL}/v1/user/customer`, config)
                         .then(
-                            (respone) => { this.setState({ data: respone.data }) }
+                            (response) => {
+                                this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                console.log(response)
+                            }
                         )
                         .catch(console.log)
+                    }
+                    else {
+                        alert('Kích hoạt tài khoản khách hàng không thành công');
+                    }
+                })
+            })
+            .catch(console.log)
+    }
+
+    onFinish2 = (values) => {
+        console.log(values);
+        values.type = '3';
+        let config = { headers: { Auth: this.props.token } }
+        axios.put(`${BASE_URL}/v1/user/deactiveuser`, values, config)
+            .then((response) => {
+                this.setState({ visible: false }, () => {
+                    if (response.data.error.code === 200) {
+                        axios.get(`${BASE_URL}/v1/user/customer`, config)
+                        .then(
+                            (response) => {
+                                this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                console.log(response)
+                            }
+                        )
+                        .catch(console.log)
+                    }
+                    else {
+                        alert('Vô hiệu hoá tài khoản khách hàng không thành công');
+                    }
                 })
             })
             .catch(console.log)
@@ -132,6 +172,24 @@ class Account extends React.Component {
                         <Form
                             ref={this.formRef}
                             onFinish={this.onFinish1}
+                            initialValues={{}}
+                            style={{ display: "flex" }}
+                        >
+                            <Form.Item
+                                name="id"
+                                label='Id'
+                            >
+                                <Input></Input>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button htmlType="submit"> Kích hoạt</Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                    <div>
+                        <Form
+                            ref={this.formRef}
+                            onFinish={this.onFinish2}
                             initialValues={{}}
                             style={{ display: "flex" }}
                         >
@@ -190,10 +248,13 @@ class Account extends React.Component {
                             <Input></Input>
                         </Form.Item>
                         
-                        <Form.Item name="image_url" label='image_url'>
-                            <Input></Input>
+                        <Form.Item
+                            name="image_url" label='image_url'
+                        >
+                            <Upload {...this.uploadProps}>
+                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                            </Upload>
                         </Form.Item>
-                        
                         <Form.Item name="mobile" label='mobile'>
                             <Input></Input>
                         </Form.Item>
