@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Table, Modal, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import {withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 import { BASE_URL } from '../consts';
@@ -10,7 +10,7 @@ import { BASE_URL } from '../consts';
 // const { Option } = Select;
 // name phone username password type
 const columns = [
-    
+
     {
         title: 'Mã',
         dataIndex: 'id',
@@ -83,15 +83,49 @@ class Shipper extends React.Component {
 
     onFinish1 = (values) => {
         console.log(values);
-
-        window.axios.put(`${BASE_URL}/user/${values.id}`,)
-            .then(() => {
+        values.type = '2';
+        let config = { headers: { Auth: this.props.token } }
+        axios.put(`${BASE_URL}/v1/user/activeshipper`, values, config)
+            .then((response) => {
                 this.setState({ visible: false }, () => {
-                    window.axios.get(`${BASE_URL}/users`)
-                        .then(
-                            (respone) => { this.setState({ data: respone.data }) }
-                        )
-                        .catch(console.log)
+                    if (response.data.error.code === 200) {
+                        axios.get(`${BASE_URL}/v1/user/shipper`, config)
+                            .then(
+                                (response) => {
+                                    this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                    console.log(response)
+                                }
+                            )
+                            .catch(console.log)
+                    }
+                    else {
+                        alert('Kích hoạt tài khoản khách hàng không thành công');
+                    }
+                })
+            })
+            .catch(console.log)
+    }
+
+    onFinish2 = (values) => {
+        console.log(values);
+        values.type = '2';
+        let config = { headers: { Auth: this.props.token } }
+        axios.put(`${BASE_URL}/v1/user/deactiveshipper`, values, config)
+            .then((response) => {
+                this.setState({ visible: false }, () => {
+                    if (response.data.error.code === 200) {
+                        axios.get(`${BASE_URL}/v1/user/shipper`, config)
+                            .then(
+                                (response) => {
+                                    this.setState({ data: response.data.data }, () => console.log(this.state.data))
+                                    console.log(response)
+                                }
+                            )
+                            .catch(console.log)
+                    }
+                    else {
+                        alert('Vô hiệu hoá tài khoản khách hàng không thành công');
+                    }
                 })
             })
             .catch(console.log)
@@ -124,6 +158,24 @@ class Shipper extends React.Component {
                         <Form
                             ref={this.formRef}
                             onFinish={this.onFinish1}
+                            initialValues={{}}
+                            style={{ display: "flex" }}
+                        >
+                            <Form.Item
+                                name="id"
+                                label='Id'
+                            >
+                                <Input></Input>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button htmlType="submit"> Kích hoạt</Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                    <div>
+                        <Form
+                            ref={this.formRef}
+                            onFinish={this.onFinish2}
                             initialValues={{}}
                             style={{ display: "flex" }}
                         >
@@ -218,7 +270,7 @@ class Shipper extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return{
+    return {
         token: state.login.token,
     }
 }
